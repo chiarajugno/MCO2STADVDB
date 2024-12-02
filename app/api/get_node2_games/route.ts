@@ -1,4 +1,4 @@
-import { createConnectionCentral } from '@/lib/db';
+import { createConnection2 } from '@/lib/db2';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -8,11 +8,11 @@ export async function GET(request: Request) {
     const offset = (page - 1) * limit;
 
     try {
-        const db = await createConnectionCentral();
-        const query = `SELECT * FROM all_games LIMIT ? OFFSET ?`;
+        const db = await createConnection2();
+        const query = `SELECT * FROM node2_games LIMIT ? OFFSET ?`;
         const [games] = await db.query(query, [limit, offset]);
 
-        const countQuery = `SELECT COUNT(*) as total FROM all_games`;
+        const countQuery = `SELECT COUNT(*) as total FROM node2_games`;
         const total = await db.query(countQuery);
 
         return NextResponse.json({ games, total });

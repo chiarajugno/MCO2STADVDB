@@ -1,6 +1,6 @@
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useState } from 'react';
 import { Game } from '@/types/types';
-import { MantineProvider, Table, Pagination, Loader} from '@mantine/core';
+import { MantineProvider, Table, Pagination, Loader } from '@mantine/core';
 import { Roboto } from 'next/font/google';
 
 const roboto = Roboto({
@@ -10,8 +10,8 @@ const roboto = Roboto({
 });
 
 
-export default function Home() {
-    const [allGames, setAllGames] = useState<Game[]>([]);
+export default function Node2() {
+    const [node2Games, setNode2Games] = useState<Game[]>([]);
     const [totalGames, setTotalGames] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
@@ -19,12 +19,12 @@ export default function Home() {
 
     const fetchGames = async (page: number) => {
         try {
-            const data = await fetch(`/api/get_all_games?page=${page}&limit=${limit}`);
+            const data = await fetch(`/api/get_node2_games?page=${page}&limit=${limit}`);
             const { games, total } = await data.json();
             console.log(games, total);
 
             if (games.length !== 0) {
-                setAllGames(games);
+                setNode2Games(games);
                 setTotalGames(total);
                 setLoading(false);
             }
@@ -42,7 +42,7 @@ export default function Home() {
     return (
         <MantineProvider>
             <div className="w-full flex flex-col items-center justify-center p-12">
-                <h1 className="text-[32px] font-semibold mb-4" style={roboto.style}>Central Node - All Games</h1>
+                <h1 className="text-[32px] font-semibold mb-4" style={roboto.style}>Node 2 - Games Released Before 2020</h1>
                 {loading ? (
                     <Loader className="mt-8" color="blue" />
                 ) : (
@@ -58,8 +58,8 @@ export default function Home() {
                             </Table.Tr>
                         </Table.Thead>
                         <Table.Tbody>
-                            {allGames.length > 0 &&
-                                allGames.map((game, index) => (
+                            {node2Games.length > 0 &&
+                                node2Games.map((game, index) => (
                                     <Table.Tr key={index}>
                                         <Table.Td>{game.app_id}</Table.Td>
                                         <Table.Td>{game.name}</Table.Td>
@@ -72,7 +72,7 @@ export default function Home() {
                         </Table.Tbody>
                     </Table>
                 )}
-                
+
                 <div className="flex flex-col justify-center items-center">
                     <Pagination
                         value={currentPage}
