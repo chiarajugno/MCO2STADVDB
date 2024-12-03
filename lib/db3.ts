@@ -5,7 +5,7 @@ export const createConnection3 = async () => {
         host: "database-3.chyki6ikuodh.ap-southeast-2.rds.amazonaws.com",
         user: process.env.DATABASE_USER,
         password: process.env.DATABASE_PASSWORD,
-        database: "node3",
+        database: process.env.DATABASE_NAME,
     });
     return connection;
 };

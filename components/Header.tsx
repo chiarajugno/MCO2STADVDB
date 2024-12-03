@@ -22,6 +22,21 @@ export default function Header() {
                                 Node 3
                             </a>
                         </li>
+                        <li>
+                            <a href="/" className="hover:text-gray-300">
+                                Case 1
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/" className="hover:text-gray-300">
+                                Case 2
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/" className="hover:text-gray-300">
+                                Case 3
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>

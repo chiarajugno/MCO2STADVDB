@@ -9,10 +9,10 @@ export async function GET(request: Request) {
 
     try {
         const db = await createConnection2();
-        const query = `SELECT * FROM node2_games LIMIT ? OFFSET ?`;
+        const query = `SELECT * FROM before_2020 LIMIT ? OFFSET ?`;
         const [games] = await db.query(query, [limit, offset]);
 
-        const countQuery = `SELECT COUNT(*) as total FROM node2_games`;
+        const countQuery = `SELECT COUNT(*) as total FROM before_2020`;
         const total = await db.query(countQuery);
 
         return NextResponse.json({ games, total });
