@@ -1,4 +1,4 @@
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useState } from 'react';
 import { Game } from '@/types/types';
 import { MantineProvider, Table, Pagination, Loader, UnstyledButton} from '@mantine/core';
 import { Roboto } from 'next/font/google';

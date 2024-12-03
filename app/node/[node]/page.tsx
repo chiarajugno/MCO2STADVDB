@@ -4,15 +4,20 @@ import Header from '@/components/Header';
 import Node from '@/components/Node';
 import { MantineProvider } from '@mantine/core';
 
-export default function NodePage({ 
+type Params = Promise<{ node: string }>;
+
+export default async function NodePage({ 
     params, 
 }: {
-    params: { node: string };
+    params: Params;
 }) {
-  return (
-    <MantineProvider>
-      <Header />
-      <Node node={params.node} />
-    </MantineProvider>
-  );
+
+    const { node } = await params;
+
+    return (
+        <MantineProvider>
+            <Header />
+            <Node node={node} />
+        </MantineProvider>
+    );
 }
