@@ -16,34 +16,18 @@ export default function Header() {
                 <nav>
                     <ul className="flex space-x-4">
                         <li>
-                            <a href="/" className="font-semibold hover:text-gray-300" style={roboto.style}>
+                            <a href="/node/1" className="font-semibold hover:text-gray-300" style={roboto.style}>
                                 Node 1
                             </a>
                         </li>
                         <li>
-                            <a href="/node2" className="font-semibold hover:text-gray-300" style={roboto.style}>
+                            <a href="/node/2" className="font-semibold hover:text-gray-300" style={roboto.style}>
                                 Node 2
                             </a>
                         </li>
                         <li>
-                            <a href="/node3" className="font-semibold hover:text-gray-300" style={roboto.style}>
+                            <a href="/node/3" className="font-semibold hover:text-gray-300" style={roboto.style}>
                                 Node 3
-                            </a>
-                        </li>
-                        <Divider orientation="vertical" />
-                        <li>
-                            <a href="/case1" className="font-semibold hover:text-gray-300" style={roboto.style}>
-                                Case 1
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/case2" className="font-semibold hover:text-gray-300" style={roboto.style}>
-                                Case 2
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/case3" className="font-semibold hover:text-gray-300" style={roboto.style}>
-                                Case 3
                             </a>
                         </li>
                     </ul>
@@ -52,4 +36,3 @@ export default function Header() {
         </header>
     );
 };
-

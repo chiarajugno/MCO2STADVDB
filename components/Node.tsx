@@ -10,21 +10,38 @@ const roboto = Roboto({
 });
 
 
-export default function Home() {
-    const [allGames, setAllGames] = useState<Game[]>([]);
+type ProductProps = {
+    node: string;
+}
+
+
+export default function Node({ node } : ProductProps) {
+    const [fetchedGames, setFetchedGames] = useState<Game[]>([]);
     const [totalGames, setTotalGames] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
     const limit = 20; 
 
+
     const fetchGames = async (page: number) => {
+        let route = "";
+        if(node === '1') {
+            route = "get_all_games"
+        }
+        else if(node === '2') {
+            route = "get_node2_games"
+        }
+        else if(node === '3') {
+            route = "get_node3_games"
+        }
         try {
-            const data = await fetch(`/api/get_all_games?page=${page}&limit=${limit}`);
+            console.log("NODE: ", node);
+            const data = await fetch(`/api/${route}?page=${page}&limit=${limit}`);
             const { games, total } = await data.json();
             console.log(games, total);
 
             if (games.length !== 0) {
-                setAllGames(games);
+                setFetchedGames(games);
                 setTotalGames(total);
                 setLoading(false);
             }
@@ -43,7 +60,7 @@ export default function Home() {
         <MantineProvider>
             <div className="w-full flex flex-col items-center justify-center p-20">
                 <div className="flex flex-row justify-center space-x-4 w-full">
-                    <UnstyledButton component="a" href="/">
+                    <UnstyledButton component="a" href="/case1">
                         <div className="flex flex-col items-center justify-center w-[164px] h-[40px] pt-1 mb-10
                                         hover:ease-in hover:duration-200 hover:bg-[#23012C]
                                         bg-[#531A88] shadow-xl rounded-lg">
@@ -75,7 +92,14 @@ export default function Home() {
                 </div>
 
                 
-                <h1 className="text-[32px] font-semibold mb-4" style={roboto.style}>Central Node - All Games</h1>
+                <h1 className="text-[32px] font-semibold mb-4" style={roboto.style}>
+                    {node === "1" ? "Central Node - All Games" :
+                    node === "2" ? "Node 2 - Games Released Before 2020" :
+                    node === "3" ? "Node 3 - Games Released On and After 2020" :
+                    ""
+                    }
+                </h1>
+
                 {loading ? (
                     <Loader className="mt-8" color="blue" />
                 ) : (
@@ -91,8 +115,8 @@ export default function Home() {
                             </Table.Tr>
                         </Table.Thead>
                         <Table.Tbody>
-                            {allGames.length > 0 &&
-                                allGames.map((game, index) => (
+                            {fetchedGames.length > 0 &&
+                                fetchedGames.map((game, index) => (
                                     <Table.Tr key={index}>
                                         <Table.Td>{game.app_id}</Table.Td>
                                         <Table.Td>{game.name}</Table.Td>
