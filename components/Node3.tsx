@@ -41,8 +41,8 @@ export default function Node2() {
 
     return (
         <MantineProvider>
-            <div className="w-full flex flex-col items-center justify-center p-12">
-                <h1 className="text-[32px] font-semibold mb-4" style={roboto.style}>Node 2 - Games Released On and After 2020</h1>
+            <div className="w-full flex flex-col items-center justify-center p-20">
+                <h1 className="text-[32px] font-semibold mb-4" style={roboto.style}>Node 3 - Games Released On and After 2020</h1>
                 {loading ? (
                     <Loader className="mt-8" color="blue" />
                 ) : (

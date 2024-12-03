@@ -41,7 +41,7 @@ export default function Home() {
 
     return (
         <MantineProvider>
-            <div className="w-full flex flex-col items-center justify-center p-12">
+            <div className="w-full flex flex-col items-center justify-center p-20">
                 <div className="flex flex-row justify-center space-x-4 w-full">
                     <UnstyledButton component="a" href="/">
                         <div className="flex flex-col items-center justify-center w-[164px] h-[40px] pt-1 mb-10
