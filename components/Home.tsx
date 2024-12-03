@@ -1,6 +1,6 @@
 import { useEffect, useState, useTransition } from 'react';
 import { Game } from '@/types/types';
-import { MantineProvider, Table, Pagination, Loader} from '@mantine/core';
+import { MantineProvider, Table, Pagination, Loader, UnstyledButton} from '@mantine/core';
 import { Roboto } from 'next/font/google';
 
 const roboto = Roboto({
@@ -42,6 +42,39 @@ export default function Home() {
     return (
         <MantineProvider>
             <div className="w-full flex flex-col items-center justify-center p-12">
+                <div className="flex flex-row justify-center space-x-4 w-full">
+                    <UnstyledButton component="a" href="/">
+                        <div className="flex flex-col items-center justify-center w-[164px] h-[40px] pt-1 mb-10
+                                        hover:ease-in hover:duration-200 hover:bg-[#23012C]
+                                        bg-[#531A88] shadow-xl rounded-lg">
+                            <p className="text-[16px] text-[#FFFFFF]">
+                                Case 1
+                            </p>
+                        </div>
+                    </UnstyledButton>
+
+                    <UnstyledButton component="a" href="/">
+                        <div className="flex flex-col items-center justify-center w-[164px] h-[40px] pt-1 mb-10
+                                        hover:ease-in hover:duration-200 hover:bg-[#23012C]
+                                        bg-[#531A88] shadow-xl rounded-lg">
+                            <p className="text-[16px] text-[#FFFFFF]">
+                                Case 2
+                            </p>
+                        </div>
+                    </UnstyledButton>
+
+                    <UnstyledButton component="a" href="/">
+                        <div className="flex flex-col items-center justify-center w-[164px] h-[40px] pt-1 mb-10
+                                        hover:ease-in hover:duration-200 hover:bg-[#23012C]
+                                        bg-[#531A88] shadow-xl rounded-lg">
+                            <p className="text-[16px] text-[#FFFFFF]">
+                                Case 3
+                            </p>
+                        </div>
+                    </UnstyledButton>
+                </div>
+
+                
                 <h1 className="text-[32px] font-semibold mb-4" style={roboto.style}>Central Node - All Games</h1>
                 {loading ? (
                     <Loader className="mt-8" color="blue" />
@@ -80,6 +113,7 @@ export default function Home() {
                         total={totalPages}
                     />
                 </div>
+
             </div>
         </MantineProvider>
     );

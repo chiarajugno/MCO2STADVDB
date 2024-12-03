@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Header() {
     return (
-        <header className="bg-gray-800 text-white shadow-md">
+        <header className="bg-[#23012C] text-white shadow-md">
             <div className="container mx-auto px-4 py-4 flex justify-between items-center">
                 <h1 className="text-2xl font-bold">STADVDB MCO2</h1>
                 <nav>
