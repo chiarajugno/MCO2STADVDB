@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Divider } from '@mantine/core';
 import { Roboto } from 'next/font/google';
 
 const roboto = Roboto({
@@ -15,6 +14,9 @@ export default function Header() {
         setSelectedNode(node);
     };
 
+    useEffect(() => {
+    }, [selectedNode]);
+
     return (
         <header className="bg-[#23012C] text-white shadow-md">
             <div className="container mx-auto px-4 py-8 flex justify-between items-center">
@@ -25,7 +27,7 @@ export default function Header() {
                             <a 
                                 onClick={() => handleNodeChange("1")} 
                                 href="/node/1" 
-                                className={`font-semibold hover:text-gray-300 ${selectedNode === "1" ? 'text-yellow-400' : 'text-white'}`} 
+                                className="font-semibold hover:text-gray-300 text-white"
                                 style={roboto.style}
                             >
                                 Node 1
@@ -35,7 +37,7 @@ export default function Header() {
                             <a 
                                 onClick={() => handleNodeChange("2")} 
                                 href="/node/2" 
-                                className={`font-semibold hover:text-gray-300 ${selectedNode === "2" ? 'text-yellow-400' : 'text-white'}`} 
+                                className="font-semibold hover:text-gray-300 text-white"
                                 style={roboto.style}
                             >
                                 Node 2
@@ -45,7 +47,7 @@ export default function Header() {
                             <a 
                                 onClick={() => handleNodeChange("3")} 
                                 href="/node/3" 
-                                className={`font-semibold hover:text-gray-300 ${selectedNode === "3" ? 'text-yellow-400' : 'text-white'}`} 
+                                className="font-semibold hover:text-gray-300 text-white"
                                 style={roboto.style}
                             >
                                 Node 3

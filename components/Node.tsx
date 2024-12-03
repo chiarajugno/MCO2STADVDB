@@ -10,12 +10,12 @@ const roboto = Roboto({
 });
 
 
-type ProductProps = {
+type Props = {
     node: string;
 }
 
 
-export default function Node({ node } : ProductProps) {
+export default function Node({ node } : Props) {
     const [fetchedGames, setFetchedGames] = useState<Game[]>([]);
     const [totalGames, setTotalGames] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
@@ -60,7 +60,7 @@ export default function Node({ node } : ProductProps) {
         <MantineProvider>
             <div className="w-full flex flex-col items-center justify-center p-20">
                 <div className="flex flex-row justify-center space-x-4 w-full">
-                    <UnstyledButton component="a" href="/case1">
+                    <UnstyledButton component="a" href="/case1/1">
                         <div className="flex flex-col items-center justify-center w-[164px] h-[40px] pt-1 mb-10
                                         hover:ease-in hover:duration-200 hover:bg-[#23012C]
                                         bg-[#531A88] shadow-xl rounded-lg">
