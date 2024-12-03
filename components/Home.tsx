@@ -46,7 +46,7 @@ export default function Home() {
                     <UnstyledButton component="a" href="/">
                         <div className="flex flex-col items-center justify-center w-[164px] h-[40px] pt-1 mb-10
                                         hover:ease-in hover:duration-200 hover:bg-[#23012C]
-                                        bg-[#7851A9] shadow-xl rounded-lg">
+                                        bg-[#531A88] shadow-xl rounded-lg">
                             <p className="text-[16px] text-[#FFFFFF]">
                                 Case 1
                             </p>
@@ -56,7 +56,7 @@ export default function Home() {
                     <UnstyledButton component="a" href="/">
                         <div className="flex flex-col items-center justify-center w-[164px] h-[40px] pt-1 mb-10
                                         hover:ease-in hover:duration-200 hover:bg-[#23012C]
-                                        bg-[#7851A9] shadow-xl rounded-lg">
+                                        bg-[#531A88] shadow-xl rounded-lg">
                             <p className="text-[16px] text-[#FFFFFF]">
                                 Case 2
                             </p>
@@ -66,7 +66,7 @@ export default function Home() {
                     <UnstyledButton component="a" href="/">
                         <div className="flex flex-col items-center justify-center w-[164px] h-[40px] pt-1 mb-10
                                         hover:ease-in hover:duration-200 hover:bg-[#23012C]
-                                        bg-[#7851A9] shadow-xl rounded-lg">
+                                        bg-[#531A88] shadow-xl rounded-lg">
                             <p className="text-[16px] text-[#FFFFFF]">
                                 Case 3
                             </p>
