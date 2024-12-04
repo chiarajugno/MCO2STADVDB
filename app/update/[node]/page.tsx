@@ -18,7 +18,7 @@ export default async function UpdatePage({
     return (
         <MantineProvider>
             <Header />
-            <Update node={node}/>
+            <Update />
             <NodeAffix node={node} />
         </MantineProvider>
     );

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Roboto } from 'next/font/google';
+import Link from 'next/link';
+import { UnstyledButton } from '@mantine/core';
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -24,34 +26,31 @@ export default function Header() {
                 <nav>
                     <ul className="flex space-x-4">
                         <li>
-                            <a 
-                                onClick={() => handleNodeChange("1")} 
-                                href="/node/1" 
-                                className="font-semibold hover:text-gray-300 text-white"
-                                style={roboto.style}
-                            >
-                                Node 1
-                            </a>
+                            <Link href="/node/1" >
+                                <UnstyledButton onClick={() => handleNodeChange("1")} 
+                                    className="font-semibold hover:text-gray-300 text-white"
+                                    style={roboto.style}>
+                                    Node 1
+                                </UnstyledButton> 
+                            </Link>
                         </li>
                         <li>
-                            <a 
-                                onClick={() => handleNodeChange("2")} 
-                                href="/node/2" 
-                                className="font-semibold hover:text-gray-300 text-white"
-                                style={roboto.style}
-                            >
-                                Node 2
-                            </a>
+                            <Link href="/node/2" >
+                                <UnstyledButton onClick={() => handleNodeChange("2")} 
+                                    className="font-semibold hover:text-gray-300 text-white"
+                                    style={roboto.style}>
+                                    Node 2
+                                </UnstyledButton> 
+                            </Link>
                         </li>
                         <li>
-                            <a 
-                                onClick={() => handleNodeChange("3")} 
-                                href="/node/3" 
-                                className="font-semibold hover:text-gray-300 text-white"
-                                style={roboto.style}
-                            >
-                                Node 3
-                            </a>
+                            <Link href="/node/3" >
+                                <UnstyledButton onClick={() => handleNodeChange("3")} 
+                                    className="font-semibold hover:text-gray-300 text-white"
+                                    style={roboto.style}>
+                                    Node 3
+                                </UnstyledButton> 
+                            </Link>
                         </li>
                     </ul>
                 </nav>

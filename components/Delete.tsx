@@ -2,11 +2,8 @@ import { useState } from 'react';
 import { MantineProvider, TextInput, Button } from '@mantine/core';
 import { notifications, Notifications } from '@mantine/notifications';
 
-type Props = {
-  node: string;
-};
 
-export default function Delete({ node }: Props) {
+export default function Delete() {
   const [appId, setAppId] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');

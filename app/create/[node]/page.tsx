@@ -18,7 +18,7 @@ export default async function CreatePage({
     return (
         <MantineProvider>
             <Header />
-            <Create node={node} />
+            <Create />
             <NodeAffix node={node} />
         </MantineProvider>
     );

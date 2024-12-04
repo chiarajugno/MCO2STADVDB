@@ -3,7 +3,7 @@ import { createConnection2 } from '@/lib/db';
 import { createConnection3 } from '@/lib/db';
 
 export async function GET() {
-  let result;
+  //let result;
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
     async start(controller) {

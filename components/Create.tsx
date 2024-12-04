@@ -9,11 +9,7 @@ const roboto = Roboto({
   display: 'swap',
 });
 
-type Props = {
-  node: string;
-};
-
-export default function Create({ node }: Props) {
+export default function Create() {
   const [formValues, setFormValues] = useState({
     appId: '',
     name: '',

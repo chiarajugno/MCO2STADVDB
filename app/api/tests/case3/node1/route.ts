@@ -16,7 +16,7 @@ export async function GET() {
             const db1 = await createConnection2();
             if (db1 == null) {
                 console.log("CONNECTION FAILED, TRYING NODE 3");
-                const db1 = await createConnection2();
+                const db1 = await createConnection3();
                 if (db1 == null) {
                     console.log("ALL NODES UNAVAILABLE");
                 }
