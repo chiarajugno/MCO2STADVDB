@@ -9,13 +9,18 @@ export async function GET(request: Request) {
 
     try {
         const db = await createConnectionCentral();
-        const query = `SELECT * FROM all_games LIMIT ? OFFSET ?`;
-        const [games] = await db.query(query, [limit, offset]);
+        if (db == null) {
+            console.log("CONNECTION FAILED");
+        } else {
+            const query = `SELECT * FROM all_games LIMIT ? OFFSET ?`;
+            const [games] = await db.query(query, [limit, offset]);
 
-        const countQuery = `SELECT COUNT(*) as total FROM all_games`;
-        const total = await db.query(countQuery);
+            const countQuery = `SELECT COUNT(*) as total FROM all_games`;
+            const total = await db.query(countQuery);
 
-        return NextResponse.json({ games, total });
+            return NextResponse.json({ games, total });
+        }
+        
     } catch (error) {
         if (error instanceof Error) {
             console.log(error.message);
