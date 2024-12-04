@@ -13,8 +13,8 @@ export async function GET() {
         const transaction = async () => {
             await db1.query('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ');
             await db1.query('START TRANSACTION');
-            controller.enqueue(encoder.encode(`Node 3: UPDATE after_and_2020 SET price = 99.99 WHERE app_id = 1;`));
-            result = await db1.query('UPDATE after_and_2020 SET price = 99.99 WHERE app_id = 1;');
+            controller.enqueue(encoder.encode(`Node 3: UPDATE after_and_2020 SET price = 55.99 WHERE app_id = 1;`));
+            await db1.query('UPDATE after_and_2020 SET price = 55.99 WHERE app_id = 1;');
             controller.enqueue(encoder.encode('\n\nSleeping for 10 seconds...\n\n'));
             await db1.query('DO SLEEP(10)');
             controller.enqueue(encoder.encode('\n\nNode 3: Committed\n\n'));

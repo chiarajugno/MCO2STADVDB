@@ -19,11 +19,11 @@ export default function Case3({ node } : Props) {
 
   const query = 
     node === "1"
-      ? "SELECT * FROM all_games WHERE app_id = 1;"
+      ? "UPDATE all_games SET price = 88.99 WHERE app_id = 1;"
       : node === "2"
-      ? "SELECT * FROM before_2020 WHERE app_id = 1;"
+      ? "UPDATE before_2020 SET price = 77.99 WHERE app_id = 1"
       : node === "3"
-      ? "SELECT * FROM after_and_2020 WHERE app_id = 1;"
+      ? "UPDATE after_and_2020 SET price = 44.99 WHERE app_id = 1;"
       : "";
 
   const runTest = async () => {
@@ -84,6 +84,7 @@ export default function Case3({ node } : Props) {
           <div className='flex flex-col w-[80%] p-4 items-start justify-start border-2 border-black rounded-md'>
             <p className="text-[20px] font-semibold" style={roboto.style}>Node {node}</p>
             <p className="text-[18px] text-[#4682B4]" style={roboto.style}>
+              SET TRANSACTION ISOLATION LEVEL REPEATABLE READ; <br></br>
               {query}
             </p>
           </div>

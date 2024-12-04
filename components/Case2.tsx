@@ -23,7 +23,7 @@ export default function Case2({ node } : Props) {
       : node === "2"
       ? "SELECT * FROM before_2020 WHERE app_id = 1;"
       : node === "3"
-      ? "UPDATE after_and_2020 SET price = 99.99 WHERE app_id = 1;"
+      ? "UPDATE after_and_2020 SET price = 55.99 WHERE app_id = 1;"
       : "";
 
   const runTest = async () => {
