@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Game } from '@/types/types';
-import { MantineProvider, Table, Pagination, Loader, UnstyledButton} from '@mantine/core';
+import { MantineProvider, Table, Pagination, Loader, UnstyledButton, Drawer, Button } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { Roboto } from 'next/font/google';
 
 const roboto = Roboto({
@@ -21,6 +22,7 @@ export default function Node({ node } : Props) {
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
     const limit = 20; 
+    const [opened, { open, close }] = useDisclosure(false);
 
 
     const fetchGames = async (page: number) => {
@@ -59,6 +61,30 @@ export default function Node({ node } : Props) {
     return (
         <MantineProvider>
             <div className="w-full flex flex-col items-center justify-center p-20">
+                <Drawer size="xs" opened={opened} onClose={close}>
+                    <div className='flex flex-col items-start justify-center px-4'>
+                        <p className="text-[28px] font-bold mb-4" style={roboto.style}>
+                            CRUD Menu
+                        </p>
+                        <UnstyledButton component='a' href={`/create/${node}`}>
+                            <p className="text-[20px] mb-4" style={roboto.style}>
+                                CREATE
+                            </p>
+                        </UnstyledButton>
+                        <UnstyledButton component='a' href={`/update/${node}`}>
+                            <p className="text-[20px] mb-4" style={roboto.style}>
+                                UPDATE
+                            </p>
+                        </UnstyledButton>
+                        <UnstyledButton component='a' href={`/delete/${node}`}>
+                            <p className="text-[20px] mb-4" style={roboto.style}>
+                                DELETE
+                            </p>
+                        </UnstyledButton>
+                    </div>
+                </Drawer>
+
+                <Button className="mr-auto mb-8" onClick={open}>CRUD Menu</Button>
                 <div className="flex flex-row justify-center space-x-4 w-full">
                     <UnstyledButton component="a" href={`/case1/${node}`}>
                         <div className="flex flex-col items-center justify-center w-[164px] h-[40px] pt-1 mb-10
