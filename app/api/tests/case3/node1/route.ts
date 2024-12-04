@@ -1,7 +1,6 @@
 import { createConnectionCentral } from '@/lib/db';
 
 export async function GET() {
-  let result;
   const encoder = new TextEncoder();
   const stream = new ReadableStream({
     async start(controller) {
@@ -11,18 +10,42 @@ export async function GET() {
         const db1 = await createConnectionCentral();
 
         const transaction = async () => {
-            await db1.query('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ');
-            await db1.query('START TRANSACTION');
-            controller.enqueue(encoder.encode(`Node 1: UPDATE all_games SET price = 88.99 WHERE app_id = 1`));
-            await db1.query('UPDATE all_games SET price = 88.99 WHERE app_id = 1');
-            controller.enqueue(encoder.encode('\n\nSleeping for 10 seconds...\n\n'));
-            await db1.query('DO SLEEP(10)');
-            controller.enqueue(encoder.encode('\n\nNode 1: Committed\n\n'));
-            await db1.query('COMMIT');
-          };
+          await db1.query('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ');
+          await db1.query('START TRANSACTION');
+          controller.enqueue(encoder.encode(`Node 1: UPDATE all_games SET price = 88.99 WHERE app_id = 1\n`));
+          await db1.query('UPDATE all_games SET price = 88.99 WHERE app_id = 1');
+          controller.enqueue(encoder.encode('\n\nSleeping for 10 seconds...\n\n'));
+          await db1.query('DO SLEEP(10)');
+          controller.enqueue(encoder.encode('\n\nNode 1: Committed\n\n'));
+          await db1.query('COMMIT');
+        };
 
-        await transaction();
+        // retry the transaction if deadlock detected
+        const retryTransaction = async (retries = 3) => {
+          while (retries > 0) {
+            try {
+              await transaction();
+              return;
+            } catch (error) {
+              if (error instanceof Error) {
+                console.log("ERROR: ", error.message);
+                if (error.message.includes('Lock deadlock')) { // Use 'includes' for error messages
+                  retries--;
+                  controller.enqueue(encoder.encode(`Deadlock detected. Retrying... (${3 - retries}/3)\n`));
+                } else {
+                  throw error; // Rethrow other errors
+                }
+              } else {
+                // Handle unexpected non-error objects (optional)
+                controller.enqueue(encoder.encode(`Unexpected error: ${String(error)}\n`));
+                throw error; // Re-throw unknown errors
+              }
+            }            
+          }
+          throw new Error('Transaction failed after retries');
+        };
 
+        await retryTransaction();
         controller.close();
       } catch (error) {
         controller.enqueue(encoder.encode(`Error: ${error}\n\n`));
@@ -30,7 +53,6 @@ export async function GET() {
       }
     },
   });
-
 
   return new Response(stream, {
     headers: {
