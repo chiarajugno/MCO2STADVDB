@@ -1,5 +1,6 @@
 import '@mantine/core/styles.css';
 import './globals.css';
+import '@mantine/notifications/styles.css';
 
 
 export default function RootLayout({

@@ -60,7 +60,7 @@ export default function Node({ node } : Props) {
         <MantineProvider>
             <div className="w-full flex flex-col items-center justify-center p-20">
                 <div className="flex flex-row justify-center space-x-4 w-full">
-                    <UnstyledButton component="a" href="/case1/1">
+                    <UnstyledButton component="a" href={`/case1/${node}`}>
                         <div className="flex flex-col items-center justify-center w-[164px] h-[40px] pt-1 mb-10
                                         hover:ease-in hover:duration-200 hover:bg-[#23012C]
                                         bg-[#531A88] shadow-xl rounded-lg">
