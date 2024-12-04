@@ -1,3 +1,5 @@
+import { createConnectionCentral } from '@/lib/db';
+import { createConnection2 } from '@/lib/db';
 import { createConnection3 } from '@/lib/db';
 
 export async function GET() {
@@ -10,21 +12,34 @@ export async function GET() {
       try {
         const db1 = await createConnection3();
 
-        const transaction = async () => {
-            await db1.query('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ');
-            await db1.query('START TRANSACTION');
-            controller.enqueue(encoder.encode(`Node 3: UPDATE after_and_2020 SET price = 55.99 WHERE app_id = 1;`));
-            await db1.query('UPDATE after_and_2020 SET price = 55.99 WHERE app_id = 1;');
-            controller.enqueue(encoder.encode('\n\nSleeping for 10 seconds...\n\n'));
-            await db1.query('DO SLEEP(10)');
-            controller.enqueue(encoder.encode('\n\nNode 3: Committed\n\n'));
-            await db1.query('COMMIT');
-            //controller.enqueue(encoder.encode(`\n\nReturned row: ${JSON.stringify(result[0])}\n\n`));
-          };
+        if (db1 == null) {
+            console.log("CONNECTION FAILED, TRYING NODE 1");
+            const db1 = await createConnectionCentral();
+            if (db1 == null) {
+                console.log("CONNECTION FAILED, TRYING NODE 2");
+                const db1 = await createConnection2();
+                if (db1 == null) {
+                    console.log("ALL NODES UNAVAILABLE");
+                }
+            }
+        } else {
+          const transaction = async () => {
+              await db1.query('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ');
+              await db1.query('START TRANSACTION');
+              controller.enqueue(encoder.encode(`Node 3: UPDATE after_and_2020 SET price = 55.99 WHERE app_id = 1;`));
+              await db1.query('UPDATE after_and_2020 SET price = 55.99 WHERE app_id = 1;');
+              controller.enqueue(encoder.encode('\n\nSleeping for 10 seconds...\n\n'));
+              await db1.query('DO SLEEP(10)');
+              controller.enqueue(encoder.encode('\n\nNode 3: Committed\n\n'));
+              await db1.query('COMMIT');
+              //controller.enqueue(encoder.encode(`\n\nReturned row: ${JSON.stringify(result[0])}\n\n`));
+            };
 
-        await transaction();
+          await transaction();
 
-        controller.close();
+          controller.close();
+        }
+
       } catch (error) {
         controller.enqueue(encoder.encode(`Error: ${error}\n\n`));
         controller.close();
