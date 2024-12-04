@@ -70,7 +70,7 @@ export default function Node({ node } : Props) {
                         </div>
                     </UnstyledButton>
 
-                    <UnstyledButton component="a" href="/">
+                    <UnstyledButton component="a" href={`/case2/${node}`}>
                         <div className="flex flex-col items-center justify-center w-[164px] h-[40px] pt-1 mb-10
                                         hover:ease-in hover:duration-200 hover:bg-[#23012C]
                                         bg-[#531A88] shadow-xl rounded-lg">
@@ -80,7 +80,7 @@ export default function Node({ node } : Props) {
                         </div>
                     </UnstyledButton>
 
-                    <UnstyledButton component="a" href="/">
+                    <UnstyledButton component="a" href={`/case3/${node}`}>
                         <div className="flex flex-col items-center justify-center w-[164px] h-[40px] pt-1 mb-10
                                         hover:ease-in hover:duration-200 hover:bg-[#23012C]
                                         bg-[#531A88] shadow-xl rounded-lg">
