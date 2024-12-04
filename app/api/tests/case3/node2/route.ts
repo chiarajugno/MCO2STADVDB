@@ -28,16 +28,15 @@ export async function GET() {
               return;
             } catch (error) {
               if (error instanceof Error) {
-                if (error.message.includes('Lock deadlock')) { // Use 'includes' for error messages
+                if (error.message.includes('Lock deadlock')) { 
                   retries--;
                   controller.enqueue(encoder.encode(`Deadlock detected. Retrying... (${3 - retries}/3)\n`));
                 } else {
-                  throw error; // Rethrow other errors
+                  throw error; 
                 }
               } else {
-                // Handle unexpected non-error objects (optional)
                 controller.enqueue(encoder.encode(`Unexpected error: ${String(error)}\n`));
-                throw error; // Re-throw unknown errors
+                throw error;
               }
             }
             
