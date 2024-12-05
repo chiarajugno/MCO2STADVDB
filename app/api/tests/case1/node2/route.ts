@@ -19,10 +19,13 @@ export async function GET() {
                 console.log("CONNECTION FAILED, TRYING NODE 3");
                 const db1 = await createConnection3();
                 if (db1 == null) {
-                    console.log("ALL NODES UNAVAILABLE");
+                  controller.enqueue(encoder.encode("No Nodes available"));
+                  controller.close();
+                  return;
                 }
             }
-        } else {
+        }
+        if (db1) {
           const transaction = async () => {
               await db1.query('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ');
               await db1.query('START TRANSACTION');

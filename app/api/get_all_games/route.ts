@@ -11,33 +11,34 @@ export async function GET(request: Request) {
     const search = url.searchParams.get('search') || '';
 
     try {
-        const db = await createConnectionCentral();
+        var db = await createConnectionCentral();
 
         if (db == null) {
             console.log("CONNECTION FAILED, TRYING NODE 2");
-            const db = await createConnection2();
+            db = await createConnection2();
             if (db == null) {
                 console.log("CONNECTION FAILED, TRYING NODE 3");
-                const db = await createConnection3();
+                db = await createConnection3();
                 if (db == null) {
-                    console.log("ALL NODES UNAVAILABLE");
+                    return NextResponse.json({error: "All nodes are offline"}, {status: 500});
                 }
             }
-        } else {
-            const query = `
-                SELECT * FROM all_games
-                WHERE name LIKE ?
-                LIMIT ? OFFSET ?`;
-            const [games] = await db.query(query, [`%${search}%`, limit, offset]);
-
-            const countQuery = `
-                SELECT COUNT(*) as total
-                FROM all_games
-                WHERE name LIKE ?`;
-            const total = await db.query(countQuery, [`%${search}%`]);
-
-            return NextResponse.json({ games, total });
         }
+        const query = `
+            SELECT * FROM all_games
+            WHERE name LIKE ?
+            LIMIT ? OFFSET ?`;
+        const [games] = await db.query(query, [`%${search}%`, limit, offset]);
+
+        const countQuery = `
+            SELECT COUNT(*) as total
+            FROM all_games
+            WHERE name LIKE ?`;
+        const total = await db.query(countQuery, [`%${search}%`]);
+
+        return NextResponse.json({ games, total });
+
+        
 
     } catch (error) {
         if (error instanceof Error) {

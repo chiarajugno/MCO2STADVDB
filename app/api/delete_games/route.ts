@@ -13,31 +13,31 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'appId is required' }, { status: 400 });
     }
 
-    const db = await createConnectionCentral();
+    var db = await createConnectionCentral();
 
     if (db == null) {
         console.log("CONNECTION FAILED, TRYING NODE 2");
-        const db = await createConnection2();
+        db = await createConnection2();
         if (db == null) {
             console.log("CONNECTION FAILED, TRYING NODE 3");
-            const db = await createConnection3();
+            db = await createConnection3();
             if (db == null) {
                 return NextResponse.json({ error: 'Failed to connect to the database' }, { status: 500 });
             }
         }
-    } else {
-      const query = `
-        DELETE FROM all_games
-        WHERE app_id = ?
-      `;
-      const [result] = await db.execute<ResultSetHeader>(query, [appId]);
-
-      if (result.affectedRows === 0) {
-        return NextResponse.json({ error: 'No game found with the given appId' }, { status: 404 });
-      }
-
-      return NextResponse.json({ message: 'Game deleted successfully', result });
     }
+    const query = `
+      DELETE FROM all_games
+      WHERE app_id = ?
+    `;
+    const [result] = await db.execute<ResultSetHeader>(query, [appId]);
+
+    if (result.affectedRows === 0) {
+      return NextResponse.json({ error: 'No game found with the given appId' }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: 'Game deleted successfully', result });
+  
 
   } catch (error) {
     console.error(error);

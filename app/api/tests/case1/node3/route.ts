@@ -19,27 +19,31 @@ export async function GET() {
                 console.log("CONNECTION FAILED, TRYING NODE 2");
                 const db1 = await createConnection2();
                 if (db1 == null) {
-                    console.log("ALL NODES UNAVAILABLE");
+                    controller.enqueue(encoder.encode("No Nodes available"));
+                    controller.close();
+                    return;
                 }
             }
-        } else {
-          const transaction = async () => {
-              await db1.query('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ');
-              await db1.query('START TRANSACTION');
-              controller.enqueue(encoder.encode(`Node 3: SELECT * FROM after_and_2020 WHERE app_id = 1`));
-              result = await db1.query('SELECT * FROM after_and_2020 WHERE app_id = 1');
-              controller.enqueue(encoder.encode('\n\nSleeping for 10 seconds...\n\n'));
-              await db1.query('DO SLEEP(10)');
-              controller.enqueue(encoder.encode('\n\nNode 3: Committed\n\n'));
-              await db1.query('COMMIT');
-              controller.enqueue(encoder.encode(`\n\nReturned row: ${JSON.stringify(result[0])}\n\n`));
-            };
-
-          await transaction();
-
-          //controller.enqueue(encoder.encode('\n\nTransaction completed!\n\n'));
-          controller.close();
         }
+        if (db1) {
+          const transaction = async () => {
+            await db1.query('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ');
+            await db1.query('START TRANSACTION');
+            controller.enqueue(encoder.encode(`Node 3: SELECT * FROM after_and_2020 WHERE app_id = 1`));
+            result = await db1.query('SELECT * FROM after_and_2020 WHERE app_id = 1');
+            controller.enqueue(encoder.encode('\n\nSleeping for 10 seconds...\n\n'));
+            await db1.query('DO SLEEP(10)');
+            controller.enqueue(encoder.encode('\n\nNode 3: Committed\n\n'));
+            await db1.query('COMMIT');
+            controller.enqueue(encoder.encode(`\n\nReturned row: ${JSON.stringify(result[0])}\n\n`));
+        };
+
+        await transaction();
+
+        //controller.enqueue(encoder.encode('\n\nTransaction completed!\n\n'));
+        controller.close();
+        }
+        
 
       } catch (error) {
         controller.enqueue(encoder.encode(`Error: ${error}\n\n`));

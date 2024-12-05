@@ -12,35 +12,34 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
     }
 
-    const db = await createConnectionCentral();
+    var db = await createConnectionCentral();
 
     if (db == null) {
         console.log("CONNECTION FAILED, TRYING NODE 2");
-        const db = await createConnection2();
+        db = await createConnection2();
         if (db == null) {
             console.log("CONNECTION FAILED, TRYING NODE 3");
-            const db = await createConnection3();
+            db = await createConnection3();
             if (db == null) {
                 return NextResponse.json({ error: 'Failed to connect to the database' }, { status: 500 });
             }
         }
-    } else {
-      const query = `
-        INSERT INTO all_games (app_id, name, release_date, price, positive_ratings, negative_ratings)
-        VALUES (?, ?, ?, ?, ?, ?)
-      `;
-
-      const [result] = await db.execute(query, [
-        appId,
-        name,
-        releaseDate,
-        price,
-        positiveRatings,
-        negativeRatings,
-      ]);
-
-      return NextResponse.json({ message: 'Game inserted successfully', result });
     }
+    const query = `
+      INSERT INTO all_games (app_id, name, release_date, price, positive_ratings, negative_ratings)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `;
+
+    const [result] = await db.execute(query, [
+      appId,
+      name,
+      releaseDate,
+      price,
+      positiveRatings,
+      negativeRatings,
+    ]);
+
+    return NextResponse.json({ message: 'Game inserted successfully', result });
 
   } catch (error) {
     console.error(error);

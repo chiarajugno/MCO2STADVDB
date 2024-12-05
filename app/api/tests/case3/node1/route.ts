@@ -18,48 +18,51 @@ export async function GET() {
                 console.log("CONNECTION FAILED, TRYING NODE 3");
                 const db1 = await createConnection3();
                 if (db1 == null) {
-                    console.log("ALL NODES UNAVAILABLE");
+                  controller.enqueue(encoder.encode("No Nodes available"));
+                  controller.close();
+                  return;
                 }
             }
-        } else {
-            const transaction = async () => {
-              await db1.query('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ');
-              await db1.query('START TRANSACTION');
-              controller.enqueue(encoder.encode(`Node 1: UPDATE all_games SET price = 88.99 WHERE app_id = 1\n`));
-              await db1.query('UPDATE all_games SET price = 88.99 WHERE app_id = 1');
-              controller.enqueue(encoder.encode('\n\nSleeping for 10 seconds...\n\n'));
-              await db1.query('DO SLEEP(10)');
-              controller.enqueue(encoder.encode('\n\nNode 1: Committed\n\n'));
-              await db1.query('COMMIT');
-            };
-    
-            // retry the transaction if deadlock detected
-            const retryTransaction = async (retries = 3) => {
-              while (retries > 0) {
-                try {
-                  await transaction();
-                  return;
-                } catch (error) {
-                  if (error instanceof Error) {
-                    console.log("ERROR: ", error.message);
-                    if (error.message.includes('Lock deadlock')) { 
-                      retries--;
-                      controller.enqueue(encoder.encode(`Deadlock detected. Retrying... (${3 - retries}/3)\n`));
-                    } else {
-                      throw error; 
-                    }
+        }
+
+          const transaction = async () => {
+            await db1?.query('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ');
+            await db1?.query('START TRANSACTION');
+            controller.enqueue(encoder.encode(`Node 1: UPDATE all_games SET price = 88.99 WHERE app_id = 1\n`));
+            await db1?.query('UPDATE all_games SET price = 88.99 WHERE app_id = 1');
+            controller.enqueue(encoder.encode('\n\nSleeping for 10 seconds...\n\n'));
+            await db1?.query('DO SLEEP(10)');
+            controller.enqueue(encoder.encode('\n\nNode 1: Committed\n\n'));
+            await db1?.query('COMMIT');
+          };
+  
+          // retry the transaction if deadlock detected
+          const retryTransaction = async (retries = 3) => {
+            while (retries > 0) {
+              try {
+                await transaction();
+                return;
+              } catch (error) {
+                if (error instanceof Error) {
+                  console.log("ERROR: ", error.message);
+                  if (error.message.includes('Lock deadlock')) { 
+                    retries--;
+                    controller.enqueue(encoder.encode(`Deadlock detected. Retrying... (${3 - retries}/3)\n`));
                   } else {
-                    controller.enqueue(encoder.encode(`Unexpected error: ${String(error)}\n`));
                     throw error; 
                   }
-                }            
-              }
-              throw new Error('Transaction failed after retries');
-            };
-    
-            await retryTransaction();
+                } else {
+                  controller.enqueue(encoder.encode(`Unexpected error: ${String(error)}\n`));
+                  throw error; 
+                }
+              }            
+            }
+            throw new Error('Transaction failed after retries');
+          };
+  
+          await retryTransaction();
             controller.close();
-        }
+  
 
       } catch (error) {
         controller.enqueue(encoder.encode(`Error: ${error}\n\n`));

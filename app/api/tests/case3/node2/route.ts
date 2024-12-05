@@ -18,19 +18,21 @@ export async function GET() {
                 console.log("CONNECTION FAILED, TRYING NODE 3");
                 const db2 = await createConnection3();
                 if (db2 == null) {
-                    console.log("ALL NODES UNAVAILABLE");
+                  controller.enqueue(encoder.encode("No Nodes available"));
+                  controller.close();
+                  return;
                 }
             }
-        } else {
+        }
           const transaction = async () => {
-              await db2.query('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ');
-              await db2.query('START TRANSACTION');
+              await db2?.query('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ');
+              await db2?.query('START TRANSACTION');
               controller.enqueue(encoder.encode(`Node 2: UPDATE before_2020 SET price = 77.99 WHERE app_id = 1\n`));
-              await db2.query('UPDATE before_2020 SET price = 77.99 WHERE app_id = 1');
+              await db2?.query('UPDATE before_2020 SET price = 77.99 WHERE app_id = 1');
               controller.enqueue(encoder.encode('\n\nSleeping for 5 seconds...\n\n'));
-              await db2.query('DO SLEEP(5)');
+              await db2?.query('DO SLEEP(5)');
               controller.enqueue(encoder.encode('\n\nNode 2: Committed\n\n'));
-              await db2.query('COMMIT');
+              await db2?.query('COMMIT');
             };
     
             // retry the transaction if deadlock detected
@@ -59,7 +61,6 @@ export async function GET() {
     
             await retryTransaction();
             controller.close();
-        }
 
       } catch (error) {
         controller.enqueue(encoder.encode(`Error: ${error}\n\n`));
