@@ -10,7 +10,7 @@ export async function GET() {
       controller.enqueue(encoder.encode('Starting concurrency test...\n\n'));
 
       try {
-        var db1 = await createConnectionCentral();
+        let db1 = await createConnectionCentral();
 
         if (db1 == null) {
             console.log("CONNECTION FAILED, TRYING NODE 2");

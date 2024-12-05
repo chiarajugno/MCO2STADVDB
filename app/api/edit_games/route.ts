@@ -12,7 +12,7 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: 'appId is required' }, { status: 400 });
     }
 
-    var db = await createConnectionCentral();
+    let db = await createConnectionCentral();
 
     if (db == null) {
         console.log("CONNECTION FAILED, TRYING NODE 2");

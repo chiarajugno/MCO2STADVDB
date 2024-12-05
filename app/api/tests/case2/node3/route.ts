@@ -1,7 +1,6 @@
 import { createConnectionCentral } from '@/lib/db';
 import { createConnection2 } from '@/lib/db';
 import { createConnection3 } from '@/lib/db';
-import { NextResponse } from 'next/server';
 
 export async function GET() {
   //let result;
@@ -11,7 +10,7 @@ export async function GET() {
       controller.enqueue(encoder.encode('Starting concurrency test...\n\n'));
 
       try {
-        var db1 = await createConnection3();
+        let db1 = await createConnection3();
 
         if (db1 == null) {
             console.log("CONNECTION FAILED, TRYING NODE 1");

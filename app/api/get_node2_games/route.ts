@@ -11,7 +11,7 @@ export async function GET(request: Request) {
     const search = url.searchParams.get('search') || '';
 
     try {
-        var db = await createConnection2();
+        let db = await createConnection2();
 
         if (db == null) {
             console.log("CONNECTION FAILED, TRYING NODE 1");

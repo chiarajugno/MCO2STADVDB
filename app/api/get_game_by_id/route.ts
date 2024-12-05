@@ -14,7 +14,7 @@ export async function GET(request: Request) {
 
     console.log('Received appId:', appId);
 
-    var db = await createConnectionCentral();
+    let db = await createConnectionCentral();
 
     if (db == null) {
         console.log("CONNECTION FAILED, TRYING NODE 2");

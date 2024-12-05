@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
     }
 
-    var db = await createConnectionCentral();
+    let db = await createConnectionCentral();
 
     if (db == null) {
         console.log("CONNECTION FAILED, TRYING NODE 2");
